@@ -1,4 +1,4 @@
-# 📊 Manage Data Models in Looker: Challenge Lab
+# Manage Data Models in Looker: Challenge Lab
 
 This document outlines the implementation of key LookML concepts including metric creation, model optimization, data governance, and usability improvements.
 
@@ -78,23 +78,26 @@ explore: +order_items {
 **What this solves:**  
 Separates sensitive user data (PII) into a dedicated, extendable view to support controlled access and better data governance.
 
-### New File: `views/user_pii_challenge_ltzq.view.lkml`
+### File: `views/user_pii_challenge_ltzq.view.lkml`
 
 ```lookml
 view: user_pii_challenge_ltzq {
   extension: required
 
   dimension: first_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.first_name ;;
   }
 
   dimension: last_name {
+    hidden: yes
     type: string
     sql: ${TABLE}.last_name ;;
   }
 
   dimension: email {
+    hidden: yes
     type: string
     sql: ${TABLE}.email ;;
   }
@@ -106,25 +109,18 @@ view: user_pii_challenge_ltzq {
   }
 
   dimension: latitude {
+    hidden: yes
     type: number
     sql: ${TABLE}.latitude ;;
   }
 
   dimension: longitude {
+    hidden: yes
     type: number
     sql: ${TABLE}.longitude ;;
   }
 }
 ```
-
-### File: `views/users.view.lkml`
-
-**Hide Sensitive Fields**
-```lookml
-hidden: yes
-```
-
-Apply to relevant dimensions (e.g., name, email, location).
 
 ---
 
@@ -135,28 +131,58 @@ Improves usability in the Explore UI by organizing related fields into logical g
 
 ### File: `views/users.view.lkml`
 
-**Group User Fields**
 ```lookml
-group_label: "User Information (Challenge wF9m)"
-```
+dimension: age {
+  group_label: "User Information (Challenge wF9m)"
+  type: number
+  sql: ${TABLE}.age ;;
+}
 
-Apply to:
-- age  
-- city  
-- country  
-- state  
+dimension: city {
+  group_label: "User Information (Challenge wF9m)"
+  type: string
+  sql: ${TABLE}.city ;;
+}
+
+dimension: country {
+  group_label: "User Information (Challenge wF9m)"
+  type: string
+  sql: ${TABLE}.country ;;
+}
+
+dimension: state {
+  group_label: "User Information (Challenge wF9m)"
+  type: string
+  sql: ${TABLE}.state ;;
+}
+```
 
 ---
 
 ### File: `views/products.view.lkml`
 
-**Group Product Fields**
 ```lookml
-group_label: "Product Information (Challenge ONkO)"
-```
+dimension: brand {
+  group_label: "Product Information (Challenge ONkO)"
+  type: string
+  sql: ${TABLE}.brand ;;
+}
 
-Apply to:
-- brand  
-- category  
-- department  
-- name  
+dimension: category {
+  group_label: "Product Information (Challenge ONkO)"
+  type: string
+  sql: ${TABLE}.category ;;
+}
+
+dimension: department {
+  group_label: "Product Information (Challenge ONkO)"
+  type: string
+  sql: ${TABLE}.department ;;
+}
+
+dimension: name {
+  group_label: "Product Information (Challenge ONkO)"
+  type: string
+  sql: ${TABLE}.name ;;
+}
+```
