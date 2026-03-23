@@ -1,14 +1,18 @@
-📊 Manage Data Models in Looker: Challenge Lab
+# 📊 Manage Data Models in Looker: Challenge Lab
 
 This document outlines the implementation of key LookML concepts including metric creation, model optimization, data governance, and usability improvements.
 
-🧩 Task 1 — Create LookML Objects
+---
 
-What this solves:
+## 🧩 Task 1 — Create LookML Objects
+
+**What this solves:**  
 Fixes missing foundational metrics required for a partially implemented aggregate table and ensures calculations (profit, revenue) are reusable and consistent.
 
-📍 File: views/order_items.view.lkml
-Add Dimension and Measure
+### 📍 File: `views/order_items.view.lkml`
+
+**Add Dimension and Measure**
+```lookml
 dimension: profit {
   label: "Profit"
   description: "Profit for each item"
@@ -25,8 +29,12 @@ measure: total_profit {
   sql: ${profit} ;;
   value_format_name: usd
 }
-📍 File: models/training_ecommerce.model.lkml
-Update Datagroup
+```
+
+### 📍 File: `models/training_ecommerce.model.lkml`
+
+**Update Datagroup**
+```lookml
 datagroup: weekly_datagroup_Fypl {
   # Caching policy (name provided by lab)
   # sql_trigger: SELECT MAX(id) FROM etl_log ;;
@@ -34,12 +42,18 @@ datagroup: weekly_datagroup_Fypl {
 }
 
 persist_with: weekly_datagroup_Fypl
-⚙️ Task 2 — Create and Fix a Refinement with an Aggregate Table
+```
 
-What this solves:
+---
+
+## ⚙️ Task 2 — Create and Fix a Refinement with an Aggregate Table
+
+**What this solves:**  
 Repairs a broken aggregate table so Looker can use precomputed weekly data for faster queries and improved performance.
 
-📍 File: models/training_ecommerce.model.lkml
+### 📍 File: `models/training_ecommerce.model.lkml`
+
+```lookml
 explore: +order_items {
   label: "Order Items - Aggregate Profit and Revenue"
 
@@ -55,12 +69,18 @@ explore: +order_items {
     }
   }
 }
-🔐 Task 3 — Extend a View (Handling PII Data)
+```
 
-What this solves:
+---
+
+## 🔐 Task 3 — Extend a View (Handling PII Data)
+
+**What this solves:**  
 Separates sensitive user data (PII) into a dedicated, extendable view to support controlled access and better data governance.
 
-📍 New File: views/user_pii_challenge_ltzq.view.lkml
+### 📍 New File: `views/user_pii_challenge_ltzq.view.lkml`
+
+```lookml
 view: user_pii_challenge_ltzq {
   extension: required
 
@@ -95,34 +115,48 @@ view: user_pii_challenge_ltzq {
     sql: ${TABLE}.longitude ;;
   }
 }
-📍 File: views/users.view.lkml
-Hide Sensitive Fields
+```
+
+### 📍 File: `views/users.view.lkml`
+
+**Hide Sensitive Fields**
+```lookml
 hidden: yes
+```
 
 Apply to relevant dimensions (e.g., name, email, location).
 
-🧱 Task 4 — Group Similar Fields in Views
+---
 
-What this solves:
+## 🧱 Task 4 — Group Similar Fields in Views
+
+**What this solves:**  
 Improves usability in the Explore UI by organizing related fields into logical groups for easier navigation.
 
-📍 File: views/users.view.lkml
-Group User Fields
+### 📍 File: `views/users.view.lkml`
+
+**Group User Fields**
+```lookml
 group_label: "User Information (Challenge wF9m)"
+```
 
 Apply to:
+- age  
+- city  
+- country  
+- state  
 
-age
-city
-country
-state
-📍 File: views/products.view.lkml
-Group Product Fields
+---
+
+### 📍 File: `views/products.view.lkml`
+
+**Group Product Fields**
+```lookml
 group_label: "Product Information (Challenge ONkO)"
+```
 
 Apply to:
-
-brand
-category
-department
-name
+- brand  
+- category  
+- department  
+- name  
